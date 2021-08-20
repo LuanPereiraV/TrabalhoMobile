@@ -27,6 +27,57 @@ class SecondRoute extends StatelessWidget {
   }
 }
 
+final String _markdownData = "-This is [Google link](https://www.google.com)";
+
+showAlertDialog(BuildContext context) {
+
+  // set up the button
+  Widget okButton = TextButton(
+    child: Text("OK"),
+    onPressed: () {
+      Navigator.of(context).pop();
+    },
+  );
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("My title"),
+    content: Text("This is my message."),
+    // view
+    actions: [
+      okButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}
+
+class Mostrar extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Second Route"),
+      ),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () {
+            // Navigator.pop(context);
+            showAlertDialog(context);
+          },
+          child: Text('Go back!'),
+        ),
+      ),
+    );
+  }
+}
+
 class MyApp extends StatefulWidget {
   @override
   _State createState() => _State();
@@ -96,9 +147,13 @@ class _State extends State<MyApp> {
                 FlatButton(
                   onPressed: (){
                     //forgot password screen
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Mostrar()),
+                    );
                   },
                   textColor: Colors.blue,
-                  child: Text('Forgot Password'),
+                  child: Text('Não possui cadastro?'),
                 ),
                 Container(
                     height: 50,
