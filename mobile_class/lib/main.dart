@@ -59,12 +59,12 @@ class Cadastro extends StatelessWidget {
                 ),
               ),
               Container(
-                padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                padding: EdgeInsets.all(10),
                 child: TextField(
-                  obscureText: true,
                   controller: emailController,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
+
                     labelText: 'Email',
                   ),
                 ),
@@ -101,10 +101,7 @@ class Cadastro extends StatelessWidget {
                       print(nameeController.text);
                       print(emailController.text);
                       print(passworddController.text);
-                      Navigator.pop(
-                        context,
-                        
-                      );
+                      showAlertDialog2(context);
                     },
                   )),
             ],
@@ -115,11 +112,42 @@ class Cadastro extends StatelessWidget {
 
 final String _markdownData = "-This is [Google link](https://www.google.com)";
 
+showAlertDialog2(BuildContext context) {
+
+  // set up the button
+  Widget Login = TextButton(
+    child: Text("Login"),
+    onPressed: () {
+      Navigator.pop(
+        context,
+      );
+    },
+  );
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("Cadastro realizado com sucesso!"),
+    content: Text("Volte para fazer o login"),
+    // view
+    actions: [
+      Login,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}
+
 showAlertDialog(BuildContext context) {
 
   // set up the button
   Widget okButton = TextButton(
-    child: Text("OK"),
+    child: Text("OaK"),
     onPressed: () {
       Navigator.of(context).pop();
     },
@@ -127,7 +155,7 @@ showAlertDialog(BuildContext context) {
 
   // set up the AlertDialog
   AlertDialog alert = AlertDialog(
-    title: Text("My title"),
+    title: Text("My titlee"),
     content: Text("This is my message."),
     // view
     actions: [
