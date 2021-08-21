@@ -8,21 +8,107 @@ void main() {
   ));
 }
 
-class Mostrar extends StatelessWidget {
+class Cadastro extends StatelessWidget {
+  TextEditingController nameeController = TextEditingController();
+  TextEditingController passworddController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Second Route"),
-      ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            Navigator.pop(context);
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+              icon: const Icon(Icons.book),
+              onPressed: () { Scaffold.of(context).openDrawer(); },
+              tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+            );
           },
-          child: Text('Go back!'),
         ),
       ),
+      body: Padding(
+          padding: EdgeInsets.all(10),
+          child: ListView(
+            children: <Widget>[
+              Container(
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.all(10),
+                  child: Text(
+                    'Qual é o link?',
+                    style: TextStyle(
+                        color: Colors.blue,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 30),
+                  )),
+              Container(
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.all(10),
+                  child: Text(
+                    'Register',
+                    style: TextStyle(fontSize: 20),
+                  )),
+              Container(
+                padding: EdgeInsets.all(10),
+                child: TextField(
+                  controller: nameeController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Nome',
+                  ),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                child: TextField(
+                  obscureText: true,
+                  controller: emailController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Email',
+                  ),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                child: TextField(
+                  obscureText: true,
+                  controller: passworddController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Senha',
+                  ),
+                ),
+              ),
+              FlatButton(
+                onPressed: (){
+                  //forgot password screen
+                  Navigator.pop(
+                    context,
+                  );
+                },
+                textColor: Colors.blue,
+                child: Text('Já possui cadastro?'),
+              ),
+              Container(
+                  height: 50,
+                  padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                  child: RaisedButton(
+                    textColor: Colors.white,
+                    color: Colors.blue,
+                    child: Text('Cadastrar'),
+                    onPressed: () {
+                      print(nameeController.text);
+                      print(emailController.text);
+                      print(passworddController.text);
+                      Navigator.pop(
+                        context,
+                        
+                      );
+                    },
+                  )),
+            ],
+          ))
     );
   }
 }
@@ -58,7 +144,7 @@ showAlertDialog(BuildContext context) {
   );
 }
 
-class SecondRoute extends StatelessWidget {
+class Mostrar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,6 +172,7 @@ class MyApp extends StatefulWidget {
 class _State extends State<MyApp> {
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -149,7 +236,7 @@ class _State extends State<MyApp> {
                     //forgot password screen
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => Mostrar()),
+                      MaterialPageRoute(builder: (context) => Cadastro()),
                     );
                   },
                   textColor: Colors.blue,
@@ -167,11 +254,13 @@ class _State extends State<MyApp> {
                         print(passwordController.text);
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => SecondRoute()),
+                          MaterialPageRoute(builder: (context) => Mostrar()),
                         );
                       },
                     )),
               ],
-            )));
+            ))
+
+              );
   }
 }
