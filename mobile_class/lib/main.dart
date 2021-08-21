@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 
 void main() {
   runApp(MaterialApp(
-    title: 'Navigation Basics',
-    // home: FirstRoute(),
-    home: MyApp()
+      title: 'Navigation Basics',
+      // home: FirstRoute(),
+      home: MyApp()
   ));
 }
 
-class SecondRoute extends StatelessWidget {
+class Mostrar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,7 +58,7 @@ showAlertDialog(BuildContext context) {
   );
 }
 
-class Mostrar extends StatelessWidget {
+class SecondRoute extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
