@@ -8,6 +8,107 @@ void main() {
   ));
 }
 
+class MyApp extends StatefulWidget {
+  @override
+  _State createState() => _State();
+}
+
+class _State extends State<MyApp> {
+  TextEditingController nameController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          // title: Text('Qual é o link?'),
+          leading: Builder(
+            builder: (BuildContext context) {
+              return IconButton(
+                icon: const Icon(Icons.book),
+                onPressed: () { Scaffold.of(context).openDrawer(); },
+                tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+              );
+            },
+          ),
+        ),
+        body: Padding(
+            padding: EdgeInsets.all(10),
+            child: ListView(
+              children: <Widget>[
+                Container(
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.all(10),
+                    child: Text(
+                      'Qual é o link?',
+                      style: TextStyle(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 30),
+                    )),
+                Container(
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.all(10),
+                    child: Text(
+                      'Sign in',
+                      style: TextStyle(fontSize: 20),
+                    )),
+                Container(
+                  padding: EdgeInsets.all(10),
+                  child: TextField(
+                    controller: nameController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'User Name',
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                  child: TextField(
+                    obscureText: true,
+                    controller: passwordController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Password',
+                    ),
+                  ),
+                ),
+                FlatButton(
+                  onPressed: (){
+                    //forgot password screen
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => CadastroUsuarios()),
+                    );
+                  },
+                  textColor: Colors.blue,
+                  child: Text('Não possui cadastro?'),
+                ),
+                Container(
+                    height: 50,
+                    padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                    child: RaisedButton(
+                      textColor: Colors.white,
+                      color: Colors.blue,
+                      child: Text('Login'),
+                      onPressed: () {
+                        print(nameController.text);
+                        print(passwordController.text);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => DisciplinasScreen(disciplinas: List.generate(20, (i) => Disciplina('Disciplina $i', '<Link da disciplina $i>')))),
+                        );
+                      },
+                    )),
+              ],
+            ))
+
+    );
+  }
+}
+
 class CadastroDisciplinas extends StatelessWidget {
   TextEditingController nameController = TextEditingController();
   TextEditingController datetimeController = TextEditingController();
@@ -243,10 +344,6 @@ class CadastroUsuarios extends StatelessWidget {
   }
 }
 
-final String _markdownData = "-This is [Google link](https://www.google.com)";
-
-
-
 showAlertDialog2(BuildContext context) {
 
   // set up the button
@@ -278,152 +375,71 @@ showAlertDialog2(BuildContext context) {
   );
 }
 
-showAlertDialog(BuildContext context) {
+class Disciplina {
+  final String title;
+  final String description;
 
-  // set up the button
-  Widget okButton = TextButton(
-    child: Text("OaK"),
-    onPressed: () {
-      Navigator.of(context).pop();
-    },
-  );
-
-  // set up the AlertDialog
-  AlertDialog alert = AlertDialog(
-    title: Text("My titlee"),
-    content: Text("This is my message."),
-    // view
-    actions: [
-      okButton,
-    ],
-  );
-
-  // show the dialog
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
+  const Disciplina(this.title, this.description);
 }
 
-class Mostrar extends StatelessWidget {
+class DisciplinasScreen extends StatelessWidget {
+  const DisciplinasScreen({Key? key, required this.disciplinas}) : super(key: key);
+
+  final List<Disciplina> disciplinas;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Second Route"),
+        title: const Text('Todos'),
       ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            // Navigator.pop(context);
-            showAlertDialog(context);
-          },
-          child: Text('Go back!'),
-        ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => CadastroDisciplinas(),
+            ),
+          );
+        },
+        child: const Icon(Icons.add),
+        backgroundColor: Colors.blue,
+      ),
+      body: ListView.builder(
+        itemCount: disciplinas.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text(disciplinas[index].title),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DetailScreen(disciplina: disciplinas[index]),
+                ),
+              );
+            },
+          );
+        },
       ),
     );
   }
 }
 
-class MyApp extends StatefulWidget {
-  @override
-  _State createState() => _State();
-}
+class DetailScreen extends StatelessWidget {
+  const DetailScreen({Key? key, required this.disciplina}) : super(key: key);
 
-class _State extends State<MyApp> {
-  TextEditingController nameController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-
+  final Disciplina disciplina;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          // title: Text('Qual é o link?'),
-          leading: Builder(
-            builder: (BuildContext context) {
-              return IconButton(
-                icon: const Icon(Icons.book),
-                onPressed: () { Scaffold.of(context).openDrawer(); },
-                tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-              );
-            },
-          ),
-        ),
-        body: Padding(
-            padding: EdgeInsets.all(10),
-            child: ListView(
-              children: <Widget>[
-                Container(
-                    alignment: Alignment.center,
-                    padding: EdgeInsets.all(10),
-                    child: Text(
-                      'Qual é o link?',
-                      style: TextStyle(
-                          color: Colors.blue,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 30),
-                    )),
-                Container(
-                    alignment: Alignment.center,
-                    padding: EdgeInsets.all(10),
-                    child: Text(
-                      'Sign in',
-                      style: TextStyle(fontSize: 20),
-                    )),
-                Container(
-                  padding: EdgeInsets.all(10),
-                  child: TextField(
-                    controller: nameController,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'User Name',
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                  child: TextField(
-                    obscureText: true,
-                    controller: passwordController,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Password',
-                    ),
-                  ),
-                ),
-                FlatButton(
-                  onPressed: (){
-                    //forgot password screen
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => CadastroUsuarios()),
-                    );
-                  },
-                  textColor: Colors.blue,
-                  child: Text('Não possui cadastro?'),
-                ),
-                Container(
-                    height: 50,
-                    padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                    child: RaisedButton(
-                      textColor: Colors.white,
-                      color: Colors.blue,
-                      child: Text('Login'),
-                      onPressed: () {
-                        print(nameController.text);
-                        print(passwordController.text);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => CadastroDisciplinas()),
-                        );
-                      },
-                    )),
-              ],
-            ))
-
-              );
+      appBar: AppBar(
+        title: Text(disciplina.title),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Text(disciplina.description),
+      ),
+    );
   }
 }
