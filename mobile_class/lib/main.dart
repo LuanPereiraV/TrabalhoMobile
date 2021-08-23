@@ -12,11 +12,15 @@ class CadastroDisciplinas extends StatelessWidget {
   TextEditingController nameController = TextEditingController();
   TextEditingController datetimeController = TextEditingController();
   TextEditingController linkController = TextEditingController();
+  CadastroUsuarios CaUs = new CadastroUsuarios();
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
         appBar: AppBar(
+          centerTitle: true,
+          title: Text("Seja Bem-Vindo" + CaUs.nameeController.text, style: TextStyle(color: Colors.black)),
           leading: Builder(
             builder: (BuildContext context) {
               return IconButton(
@@ -24,8 +28,11 @@ class CadastroDisciplinas extends StatelessWidget {
                 onPressed: () { Scaffold.of(context).openDrawer(); },
                 tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
               );
+
             },
+
           ),
+
         ),
         body: Padding(
             padding: EdgeInsets.all(10),
@@ -66,6 +73,7 @@ class CadastroDisciplinas extends StatelessWidget {
                       border: OutlineInputBorder(),
                       labelText: 'Date e Hora',
                     ),
+                    keyboardType: TextInputType.datetime,
                   ),
                 ),
                 Container(
@@ -76,6 +84,7 @@ class CadastroDisciplinas extends StatelessWidget {
                       border: OutlineInputBorder(),
                       labelText: 'Link da aula',
                     ),
+                    keyboardType: TextInputType.url,
                   ),
                 ),
                 Container(
@@ -96,10 +105,42 @@ class CadastroDisciplinas extends StatelessWidget {
             ))
     );
   }
+  showAlertDialog3(BuildContext context) {
+
+    // set up the button
+    Widget OK = TextButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.pop(
+          context,
+        );
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Disciplina registrada com sucesso!", style: TextStyle( fontWeight: FontWeight.bold )),
+      content: Text("Disciplina: " + nameController.text + "\n\n"
+          + "Data e Hora: " + datetimeController.text + "\n\n" + "Link: " + linkController.text,  style: TextStyle(
+          fontWeight: FontWeight.bold)),
+      // view
+      actions: [
+        OK,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
 }
 
 class CadastroUsuarios extends StatelessWidget {
-  TextEditingController nameController = TextEditingController();
+  TextEditingController nameeController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController emailController = TextEditingController();
 
@@ -141,7 +182,7 @@ class CadastroUsuarios extends StatelessWidget {
               Container(
                 padding: EdgeInsets.all(10),
                 child: TextField(
-                  controller: nameController,
+                  controller: nameeController,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Nome',
@@ -157,6 +198,7 @@ class CadastroUsuarios extends StatelessWidget {
 
                     labelText: 'Email',
                   ),
+                  keyboardType: TextInputType.emailAddress,
                 ),
               ),
               Container(
@@ -188,7 +230,7 @@ class CadastroUsuarios extends StatelessWidget {
                     color: Colors.blue,
                     child: Text('Cadastrar'),
                     onPressed: () {
-                      print(nameController.text);
+                      print(nameeController.text);
                       print(emailController.text);
                       print(passwordController.text);
                       showAlertDialog2(context);
@@ -203,35 +245,7 @@ class CadastroUsuarios extends StatelessWidget {
 
 final String _markdownData = "-This is [Google link](https://www.google.com)";
 
-showAlertDialog3(BuildContext context) {
 
-  // set up the button
-  Widget OK = TextButton(
-    child: Text("OK"),
-    onPressed: () {
-      Navigator.pop(
-        context,
-      );
-    },
-  );
-
-  // set up the AlertDialog
-  AlertDialog alert = AlertDialog(
-    title: Text("Disciplina registrada com sucesso!"),
-    // view
-    actions: [
-      OK,
-    ],
-  );
-
-  // show the dialog
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
-}
 
 showAlertDialog2(BuildContext context) {
 
