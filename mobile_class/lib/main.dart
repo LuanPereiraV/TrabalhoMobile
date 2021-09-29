@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_class/screens/login.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -8,12 +9,13 @@ void main() {
   ));
 }
 
+/*
 class MyApp extends StatefulWidget {
   @override
-  _State createState() => _State();
+  Login createState() => Login();
 }
 
-class _State extends State<MyApp> {
+class Login extends State<MyApp> {
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
@@ -108,7 +110,8 @@ class _State extends State<MyApp> {
     );
   }
 }
-
+*/
+/*
 class CadastroDisciplinas extends StatelessWidget {
   TextEditingController nameController = TextEditingController();
   TextEditingController datetimeController = TextEditingController();
@@ -239,7 +242,8 @@ class CadastroDisciplinas extends StatelessWidget {
     );
   }
 }
-
+*/
+/*
 class CadastroUsuarios extends StatelessWidget {
   TextEditingController nameeController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -374,7 +378,8 @@ showAlertDialog2(BuildContext context) {
     },
   );
 }
-
+*/
+/*
 class Disciplina {
   final String title;
   final String description;
@@ -443,3 +448,4 @@ class DetailScreen extends StatelessWidget {
     );
   }
 }
+*/
