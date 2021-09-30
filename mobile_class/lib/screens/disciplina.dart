@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_class/screens/cadastro_disciplinas.dart';
+import 'package:mobile_class/screens/editarDados_usuario.dart';
+import 'package:mobile_class/screens/editar_Disciplinas.dart';
 
 class Disciplina {
   final String title;
@@ -18,7 +20,22 @@ class DisciplinasScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Todos'),
-      ),
+          actions:[
+            IconButton(
+            onPressed: (){
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => editarDados(),
+                ),
+              );
+            },
+            icon: Icon(Icons.person),
+            )
+          ]
+
+    ),
+
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
@@ -41,6 +58,7 @@ class DisciplinasScreen extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => DetailScreen(disciplina: disciplinas[index]),
+
                 ),
               );
             },
@@ -61,11 +79,25 @@ class DetailScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(disciplina.title),
+          actions:[
+            IconButton(
+              onPressed: (){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => editarDisciplinas(),
+                  ),
+                );
+              },
+              icon: Icon(Icons.settings),
+            )
+          ]
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Text(disciplina.description),
       ),
+
     );
   }
 }
