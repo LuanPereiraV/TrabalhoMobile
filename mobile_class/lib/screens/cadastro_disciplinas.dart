@@ -43,7 +43,7 @@ class CadastroDisciplinas extends StatelessWidget {
             },
 
           ),
-
+ 
         ),
         body: Padding(
             padding: EdgeInsets.all(10),
