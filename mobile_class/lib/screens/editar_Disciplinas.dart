@@ -70,9 +70,12 @@ class editarDisciplinas extends StatelessWidget {
                       textColor: Colors.white,
                       color: Colors.blue,
                       child: Text('Concluir'),
-                      onPressed: () {
-                        showAlertDialog3(context);
-                      },
+                      onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (ctx) => FutureDemoPage(),
+                        ),
+                      ),
                     )),
               ],
             ))
@@ -111,4 +114,70 @@ showAlertDialog3(BuildContext context) {
     },
   );
 }
+}
+class FutureDemoPage extends StatelessWidget {
+
+  Future<String> getData() {
+    return Future.delayed(Duration(seconds: 2), () {
+      return "Alterado com sucesso!";
+
+      // throw Exception("Custom Error");
+
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(''),
+        ),
+
+        body: FutureBuilder(
+
+          builder: (ctx, snapshot) {
+            // Checking if future is resolved or not
+            if (snapshot.connectionState == ConnectionState.done) {
+              // If we got an error
+              if (snapshot.hasError) {
+                return Center(
+                  child: Text(
+                    '${snapshot.error} occured',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                );
+
+                // if we got our data
+              } else if (snapshot.hasData) {
+                // Extracting data from snapshot object
+                final data = snapshot.data as String;
+                return Center(
+                  child: Text(
+                    '$data',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                );
+              }
+            }
+
+            // Displaying LoadingSpinner to indicate waiting state
+            return Center(
+              child: CircularProgressIndicator(),
+
+            );
+          },
+
+
+          // Future that needs to be resolved
+          // inorder to display something on the Canvas
+          future: getData(),
+        ),
+
+
+      ),
+    );
+  }
+
+
 }
