@@ -1,163 +1,183 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_class/screens/cadastro_disciplinas.dart';
-import 'package:mobile_class/screens/editarDados_usuario.dart';
-import 'package:mobile_class/screens/editar_Disciplinas.dart';
+import 'package:mobile_class/screens/disciplina.dart';
 
-class Disciplina {
-  final String title;
-  final String description;
-
-  const Disciplina(this.title, this.description);
-}
-
-class DisciplinasScreen extends StatelessWidget {
-  const DisciplinasScreen({Key? key, required this.disciplinas}) : super(key: key);
-
-  final List<Disciplina> disciplinas;
+class editarDisciplinas extends StatelessWidget {
+  TextEditingController nameController = TextEditingController();
+  TextEditingController datetimeController = TextEditingController();
+  TextEditingController linkController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Todos'),
-          actions:[
-            IconButton(
-            onPressed: (){
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => editarDados(),
+        appBar: AppBar(
+          title: const Text('Disciplina'),
+
+        ),
+        body: Padding(
+            padding: EdgeInsets.all(10),
+            child: ListView(
+              children: <Widget>[
+                Container(
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.all(10),
+                    child: Text(
+                      'Editar dados',
+                      style: TextStyle(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 30),
+                    )),
+
+                Container(
+                  padding: EdgeInsets.all(10),
+                  child: TextField(
+                    controller: nameController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Programação para Dispositivos Móveis',
+                    ),
+                  ),
                 ),
-              );
-            },
-            icon: Icon(Icons.person),
-            )
-          ]
+                Container(
+                  padding: EdgeInsets.all(10),
+                  child: TextField(
+                    controller: datetimeController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
 
-    ),
-
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => CadastroDisciplinas(),
-            ),
-          );
-        },
-        child: const Icon(Icons.add),
-        backgroundColor: Colors.blue,
-      ),
-      body: ListView.builder(
-        itemCount: disciplinas.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(disciplinas[index].title),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => DetailScreen(disciplina: disciplinas[index]),
-
+                      labelText: '01/10 - 18:30',
+                    ),
+                    keyboardType: TextInputType.datetime,
+                  ),
                 ),
-              );
-            },
-          );
-        },
-      ),
+                Container(
+                  padding: EdgeInsets.all(10),
+                  child: TextField(
+                    controller: linkController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+
+                      labelText: 'https://meet.google.com/uyk-tiur-wgn',
+                    ),
+                    keyboardType: TextInputType.url,
+                  ),
+                ),
+                Container(
+                    height: 40,
+                    padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                    child: RaisedButton(
+                      textColor: Colors.white,
+                      color: Colors.blue,
+                      child: Text('Concluir'),
+                      onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (ctx) => FutureDemoPage(),
+                        ),
+                      ),
+                    )),
+              ],
+            ))
     );
   }
+
+showAlertDialog3(BuildContext context) {
+
+  // set up the button
+  Widget OK = TextButton(
+    child: Text("OK"),
+    onPressed: () {
+      Navigator.pop(
+        context,
+      );
+    },
+  );
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("Dados alterados com sucesso!", style: TextStyle( fontWeight: FontWeight.bold )),
+    content: Text("Disciplina: " + nameController.text + "\n\n"
+        + "Data e Hora: " + datetimeController.text + "\n\n" + "Link: " + linkController.text,  style: TextStyle(
+        fontWeight: FontWeight.bold)),
+    // view
+    actions: [
+      OK,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
 }
+}
+class FutureDemoPage extends StatelessWidget {
 
-class DetailScreen extends StatelessWidget {
-  const DetailScreen({Key? key, required this.disciplina}) : super(key: key);
+  Future<String> getData() {
+    return Future.delayed(Duration(seconds: 2), () {
+      return "Alterado com sucesso!";
 
-  final Disciplina disciplina;
+      // throw Exception("Custom Error");
+
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(disciplina.title),
-          actions:[
-            IconButton(
-              onPressed: (){
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => editarDisciplinas(),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(''),
+        ),
+
+        body: FutureBuilder(
+
+          builder: (ctx, snapshot) {
+            // Checking if future is resolved or not
+            if (snapshot.connectionState == ConnectionState.done) {
+              // If we got an error
+              if (snapshot.hasError) {
+                return Center(
+                  child: Text(
+                    '${snapshot.error} occured',
+                    style: TextStyle(fontSize: 18),
                   ),
                 );
-              },
-              icon: Icon(Icons.settings),
-            ),
-            IconButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => HomePage(),
-                    ),
+
+                // if we got our data
+              } else if (snapshot.hasData) {
+                // Extracting data from snapshot object
+                final data = snapshot.data as String;
+                return Center(
+                  child: Text(
+                    '$data',
+                    style: TextStyle(fontSize: 18),
+                  ),
                 );
-              },
-              icon: Icon(Icons.timer),
-
-            )
-          ]
-
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Text(disciplina.description),
-      ),
-
-    );
-  }
-}
-
-class HomePage extends StatefulWidget {
-  @override
-  _HomePageState createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  bool _running = true;
-
-  Stream<String> _clock() async* {
-
-    while (_running) {
-      await Future<void>.delayed(Duration(seconds: 1));
-      DateTime _now = DateTime.now();
-      yield "${_now.hour} : ${_now.minute} : ${_now.second}";
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-          title: Text('Cronômetro'),
-      ),
-        body: Center(
-
-          child: StreamBuilder(
-            stream: _clock(),
-            builder: (context, AsyncSnapshot<String> snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-
-                return CircularProgressIndicator();
-
               }
-              return Text(
-                snapshot.data!,
-                style: TextStyle(fontSize: 50, color: Colors.blue),
-              );
-              },
-          )
+            }
 
-        )
+            // Displaying LoadingSpinner to indicate waiting state
+            return Center(
+              child: CircularProgressIndicator(),
+
+            );
+          },
+
+
+          // Future that needs to be resolved
+          // inorder to display something on the Canvas
+          future: getData(),
+        ),
+
+
+      ),
     );
-
   }
-}
 
+
+}
