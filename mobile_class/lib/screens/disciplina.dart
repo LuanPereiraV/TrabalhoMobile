@@ -124,11 +124,10 @@ class _HomePageState extends State<HomePage> {
   bool _running = true;
 
   Stream<String> _clock() async* {
-    // This loop will run forever because _running is always true
+
     while (_running) {
       await Future<void>.delayed(Duration(seconds: 1));
       DateTime _now = DateTime.now();
-      // This will be displayed on the screen as current time
       yield "${_now.hour} : ${_now.minute} : ${_now.second}";
     }
   }
@@ -136,21 +135,29 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-      body: Center(
-        child: StreamBuilder(
-          stream: _clock(),
-          builder: (context, AsyncSnapshot<String> snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return CircularProgressIndicator();
-            }
-            return Text(
-              snapshot.data!,
-              style: TextStyle(fontSize: 50, color: Colors.blue),
-            );
-          },
-        ),
+      appBar: AppBar(
+          title: Text('Cronômetro'),
       ),
+        body: Center(
+
+          child: StreamBuilder(
+            stream: _clock(),
+            builder: (context, AsyncSnapshot<String> snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+
+                return CircularProgressIndicator();
+
+              }
+              return Text(
+                snapshot.data!,
+                style: TextStyle(fontSize: 50, color: Colors.blue),
+              );
+              },
+          )
+
+        )
     );
+
   }
 }
+
