@@ -128,7 +128,7 @@ class FutureDemoPage extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Disciplinas'),
+          title: Text(''),
         ),
 
         body: FutureBuilder(
